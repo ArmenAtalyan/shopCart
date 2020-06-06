@@ -6,7 +6,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -17,9 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         auth.inMemoryAuthentication().
-                withUser(users.username("John").password("test123")).
-                withUser(users.username("Lily").password("test456")).
-                withUser(users.username("Vachik").password("test789"));
+                withUser(users.username("John").password("test123").authorities(Collections.singletonList(new SimpleGrantedAuthority("ADMIN"))));
     }
 
     protected void configure(HttpSecurity http) throws Exception {
